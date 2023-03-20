@@ -29,7 +29,7 @@ export default function Card() {
   }, [index]);
 
   console.log(selectedPlayer);
-  function renderSwitch(tab: string) {
+  function renderSwitch(tab) {
     switch (tab) {
       case "Stats":
         return <Stats player={selectedPlayer} />;
