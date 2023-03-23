@@ -1,7 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
-import preview from "../../public/images/nft-preview.gif";
-import { motion } from "framer-motion";
 import contractStore from "@/store/contractStore";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -16,6 +13,7 @@ import { GoLightBulb } from "react-icons/go";
 import { SiGhost } from "react-icons/si";
 import { TfiEye } from "react-icons/tfi";
 import { RiCoinLine } from "react-icons/ri";
+import MintButton from "./mintButton";
 export default function PlayerCard() {
   const { address, isConnected, isReconnecting } = useAccount();
   const store = contractStore();
@@ -35,6 +33,8 @@ export default function PlayerCard() {
       const players = await response.map((val) => val.toNumber());
       const player = await contract.getPlayer(players[index]);
       store.setPlayer(await player);
+      store.setStatus(await player.status.toNumber());
+      console.log(store.status);
       const gold = await contract.getGoldBalance(address);
       store.setGold(await gold.toNumber());
     };
@@ -43,7 +43,7 @@ export default function PlayerCard() {
   if (store.player.status) {
     return (
       <>
-        <div className="stats shadow absolute -left-32 -bottom-8 bg-[#E6E6FA] hover:bg-white py-2 pr-5 gap-6 scale-[0.40] sm:absolute sm:scale-75 sm:bottom-1 sm:-left-12 lg:left-1 lg:scale-100">
+        <div className="stats shadow absolute -left-32 -bottom-8 bg-[#E6E6FA] overflow-visible py-2 pr-5 gap-6 scale-[0.40] sm:absolute sm:scale-75 sm:bottom-1 sm:-left-12 lg:left-1 lg:scale-100">
           <div className="w-full flex items-center my-auto pl-1 gap-4">
             <div className="avatar p-4">
               <div className="w-16 rounded-full">
@@ -64,8 +64,12 @@ export default function PlayerCard() {
                   {" "}
                   {store.player?.male ? "Male" : "Female"}
                 </div>
-                <div className="text-success font-bold text-sm">
-                  {store.player.status.toNumber() === 0 ? "ready" : "not ready"}
+                <div className=" font-bold text-sm">
+                  {store.player.status.toNumber() === 0 ? (
+                    <span className="text-success">ready</span>
+                  ) : (
+                    <span className="text-error">not ready</span>
+                  )}
                 </div>
               </div>
               <div className="stat-desc text-purple-800 font-bold">
@@ -140,9 +144,10 @@ export default function PlayerCard() {
             </div>
           </div>
           <div className=" my-auto ">
+            <MintButton />
             <div
-              className=" flex justify-center items-center text-3xl text-amber-500 tooltip tooltip-bottom"
-              data-tip="wisdom"
+              className=" flex mt-12 justify-center items-center text-3xl text-amber-500 tooltip tooltip-bottom"
+              data-tip="gold"
             >
               <RiCoinLine className="pr-2" />0{store.gold}
             </div>
