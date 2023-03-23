@@ -68,13 +68,13 @@ export default function Mint() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
-          className="input bg-primary"
+          className="input bg-primary select-primary text-white"
           placeholder="Player Name"
           type="text"
           {...register("name", { required: true })}
         />
         <select
-          className="input select-primary bg-primary"
+          className="input select-primary text-white bg-primary"
           {...register("gender", { required: true })}
         >
           <option>Male</option>
