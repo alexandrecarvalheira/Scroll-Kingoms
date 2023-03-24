@@ -76,6 +76,7 @@ export default async function handler(
         await fetchImg();
       }
     } catch (error) {
+      res.status(500).json({ error });
       console.log(error);
     }
   };
