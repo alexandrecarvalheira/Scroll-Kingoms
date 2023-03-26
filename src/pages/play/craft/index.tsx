@@ -9,27 +9,16 @@ import Link from "next/link";
 import PlayerCard from "@/components/playerCard";
 import { ethers } from "ethers";
 import Toast from "@/components/toast";
-import Countdown from "react-countdown";
+import { useRouter } from "next/router";
 
 export default function Craft() {
   const store = contractStore();
   const { address } = useAccount();
-  const [quest, setQuest] = useState("");
   const [hash, setHash] = useState("");
-  const [timer, setTimer] = useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    async function getQuest() {
-      console.log(store.status);
-      if (store.status === 0) {
-        setQuest("start");
-      } else {
-        setQuest("end");
-      }
-    }
-    getQuest();
-  }, []);
-  async function handleCombatTrain() {
+  useEffect(() => {}, []);
+  async function handleCraftSword() {
     console.log(store.status);
 
     const provider = new ethers.providers.Web3Provider(window.ethereum as any);
@@ -40,26 +29,29 @@ export default function Craft() {
       Diamond.abi,
       signer
     );
-    if (store.status === 0) {
-      const quest = await contract.startTrainingCombat(store.players[0]);
-      console.log(quest);
 
-      setHash(quest.hash);
-      setQuest("end");
-      setTimeout(() => {
-        setTimer(true);
-        store.setStatus(1);
-      }, 10000);
-    } else {
-      const quest = await contract.endTrainingCombat(store.players[0]);
-      await provider.getTransaction(quest.hash);
-      setQuest("start");
-      setHash(quest.hash);
-      setTimeout(() => {
-        setTimer(true);
-        store.setStatus(0);
-      }, 10000);
-    }
+    const quest = await contract.craftSword(store.selectedPlayer);
+    console.log(quest);
+    setHash(quest.hash);
+  }
+  async function handleCraftArmor() {
+    console.log(store.status);
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+    // Get signer
+    const signer = provider.getSigner();
+    const contract = await new ethers.Contract(
+      process.env.NEXT_PUBLIC_DIAMOND_ADDRESS as string,
+      Diamond.abi,
+      signer
+    );
+
+    const quest = await contract.craftArmor(store.selectedPlayer);
+    console.log(quest);
+    setTimeout(() => {
+      router.reload();
+    }, 10000);
+    setHash(quest.hash);
   }
 
   if (store.players.length === 0) {
@@ -103,25 +95,22 @@ export default function Craft() {
       </Link>
 
       <button
-        disabled={timer}
-        className="absolute left-[46%] top-[50%] btn bg-gray-600 disabled:text-zinc-100 disabled:bg-opacity-90 disabled:text-opacity-100"
+        disabled={store.status !== 0}
+        className="absolute left-[40%] top-[55%] btn bg-gray-600 disabled:text-zinc-100 disabled:bg-opacity-90 disabled:text-opacity-100"
         onClick={() => {
-          handleCombatTrain();
+          handleCraftSword();
         }}
       >
-        {timer ? (
-          <Countdown
-            date={Date.now() + 1000 * 20} // 1sec * seconds
-            onComplete={() => setTimer(false)}
-            renderer={(props) => (
-              <>
-                {props.minutes}:{props.seconds}
-              </>
-            )}
-          />
-        ) : (
-          <>{quest} Combat Training</>
-        )}
+        <>Craft Sword</>
+      </button>
+      <button
+        disabled={store.status !== 0}
+        className="absolute left-[55%] top-[60%] btn bg-gray-600 disabled:text-zinc-100 disabled:bg-opacity-90 disabled:text-opacity-100"
+        onClick={() => {
+          handleCraftArmor();
+        }}
+      >
+        <>Craft Armor</>
       </button>
     </motion.div>
   );
