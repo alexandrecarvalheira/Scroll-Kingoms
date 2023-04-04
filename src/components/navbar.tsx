@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <>
-      <div className="navbar font-bold z-30 bg-black text-slate-50">
+      <div className="navbar font-bold z-30 bg-black text-slate-50 relative">
         <div className="navbar-start">
           <div className="dropdown  hover:text-white  rounded-lg">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -37,10 +37,10 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <Link href={"/leaderboard"}>Leaderboard</Link>
+                <Link href={""}>Leaderboard</Link>
               </li>
               <li>
-                <Link href={"/about"}>About</Link>
+                <Link href={""}>About</Link>
               </li>
             </ul>
           </div>
@@ -65,11 +65,11 @@ export default function Navbar() {
             </li>
 
             <li className=" rounded-lg  hover:bg-gray-600 ">
-              <Link href={"/leaderboard"}>Leaderboard</Link>
+              <Link href={""}>Leaderboard</Link>
             </li>
 
             <li className=" rounded-lg  hover:bg-gray-600 ">
-              <Link href={"/about"}>About</Link>
+              <Link href={""}>About</Link>
             </li>
           </ul>
         </div>
