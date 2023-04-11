@@ -8,6 +8,12 @@ import Footer from "@/components/footer";
 import { Poppins } from "next/font/google";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { contractStore } from "@/store/contractStore";
+import { ethers } from "ethers";
+import { DIAMOND1HARDHAT } from "../../types/ethers-contracts/DIAMOND1HARDHAT";
+import { Analytics } from "@vercel/analytics/react";
+
+import Diamond from "../../types/ethers-contracts/DIAMOND-1-HARDHAT.json";
 
 const poppins = Poppins({
   weight: "400",
@@ -18,8 +24,19 @@ const poppins = Poppins({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const store = contractStore();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    // set contract object in store
+    const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      process.env.NEXT_PUBLIC_DIAMOND_ADDRESS as string,
+      Diamond.abi,
+      signer
+    ) as DIAMOND1HARDHAT;
+    store.setDiamond(contract);
     setMounted(true);
   }, []);
 
@@ -39,6 +56,8 @@ export default function App({ Component, pageProps }: AppProps) {
         </main>
         <Footer />
       </WagmiProvider>
+
+      <Analytics />
     </>
   );
 }
