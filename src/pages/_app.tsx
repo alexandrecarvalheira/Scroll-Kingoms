@@ -10,10 +10,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { contractStore } from "@/store/contractStore";
 import { ethers } from "ethers";
-import { DIAMOND1HARDHAT } from "../../types/ethers-contracts/DIAMOND1HARDHAT";
-import { Analytics } from "@vercel/analytics/react";
+import { DIAMOND1HARDHAT } from "../../../types/ethers-contracts/DIAMOND1HARDHAT";
 
-import Diamond from "../../types/ethers-contracts/DIAMOND-1-HARDHAT.json";
+import Diamond from "../../../deployment/artifacts/hardhat-diamond-abi/HardhatDiamondABI.sol/DIAMOND-1-HARDHAT.json";
 
 const poppins = Poppins({
   weight: "400",
@@ -56,7 +55,6 @@ export default function App({ Component, pageProps }: AppProps) {
         </main>
         <Footer />
       </WagmiProvider>
-      <Analytics />
     </>
   );
 }
