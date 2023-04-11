@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { DIAMOND1HARDHAT } from "../../../types/ethers-contracts/DIAMOND1HARDHAT";
+import { DIAMOND1HARDHAT } from "../../types/ethers-contracts/DIAMOND1HARDHAT";
 
 type TplayerStore = {
   players: number[];
