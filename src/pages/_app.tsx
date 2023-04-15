@@ -11,10 +11,10 @@ import { useRouter } from "next/router";
 import { contractStore } from "@/store/contractStore";
 import { ethers } from "ethers";
 import { DIAMOND1HARDHAT } from "../../types/ethers-contracts/DIAMOND1HARDHAT";
+import { useAccount, useNetwork } from "wagmi";
 
 import Diamond from "../../types/ethers-contracts/DIAMOND-1-HARDHAT.json";
 import PlayerCard from "@/components/playerCard";
-import { useAccount } from "wagmi";
 
 const poppins = Poppins({
   weight: "400",
@@ -28,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const store = contractStore();
   const [mounted, setMounted] = useState(false);
   const { address } = useAccount();
+  const { chain } = useNetwork();
 
   useEffect(() => {
     // set contract object in store
@@ -42,14 +43,14 @@ export default function App({ Component, pageProps }: AppProps) {
         signer
       ) as DIAMOND1HARDHAT;
       store.setDiamond(contract);
-      setMounted(true);
     }
+    setMounted(true);
   }, [address]);
   return (
     <>
       <WagmiProvider>
         <NextHead>
-          <title>Scroll Kingdom</title>
+          <title>Scroll Kingdoms</title>
         </NextHead>
         <main className={`${poppins.variable} `}>
           <Navbar />
@@ -58,7 +59,7 @@ export default function App({ Component, pageProps }: AppProps) {
               key={router.pathname}
               className="flex md:flex-row flex-col relative items-center "
             >
-              {router.pathname !== "/mint" && <PlayerCard />}
+              {router.pathname.includes("play") ? <PlayerCard /> : ""}
               {mounted && <Component {...pageProps} />}
             </motion.div>
           </AnimatePresence>
