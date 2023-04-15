@@ -12,6 +12,7 @@ import { contractStore } from "@/store/contractStore";
 import { ethers } from "ethers";
 import { DIAMOND1HARDHAT } from "../../types/ethers-contracts/DIAMOND1HARDHAT";
 import { useAccount, useNetwork } from "wagmi";
+import { Analytics } from "@vercel/analytics/react";
 
 import Diamond from "../../types/ethers-contracts/DIAMOND-1-HARDHAT.json";
 import PlayerCard from "@/components/playerCard";
@@ -66,6 +67,8 @@ export default function App({ Component, pageProps }: AppProps) {
         </main>
         <Footer />
       </WagmiProvider>
+
+      <Analytics />
     </>
   );
 }
