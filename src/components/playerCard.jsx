@@ -53,7 +53,7 @@ export default function PlayerCard() {
       case 2:
         return <span className="text-error">questing</span>;
       case 3:
-        return <span className="text-error">crafting</span>;
+        return <span className="text-error">training</span>;
       case 4:
         return <span className="text-error">arena</span>;
       default:
