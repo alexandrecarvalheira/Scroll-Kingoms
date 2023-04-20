@@ -132,8 +132,8 @@ export default function MainArenaModal() {
 
   return (
     <>
-      <input type="checkbox" id="my-modal-4" className="modal-toggle" />
-      <label htmlFor="my-modal-4" className="modal cursor-pointer">
+      <input type="checkbox" id="main-arena" className="modal-toggle" />
+      <label htmlFor="main-arena" className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
           <h3 className="text-lg font-bold text-center mb-2 text-purple-900">
             Fight for gold in the Arena!
