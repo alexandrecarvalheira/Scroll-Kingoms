@@ -131,7 +131,7 @@ export default function CombatTrainingModal() {
       <label htmlFor="combat-train" className="modal cursor-pointer">
         <label className="modal-box relative" htmlFor="">
           <h3 className="text-lg font-bold text-center mb-2 text-purple-900">
-            Training to earn strengh
+            Training to earn strength
           </h3>
           <div className="flex flex-col w-full lg:flex-row">
             <button
