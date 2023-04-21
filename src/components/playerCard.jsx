@@ -193,13 +193,15 @@ export default function PlayerCard() {
               className=" flex  justify-center items-center sm:text-3xl text-amber-500 tooltip "
               data-tip="gold"
             >
-              <RiCoinLine className="pr-2" />0{store.gold}
+              <RiCoinLine className="pr-2" />
+              {store.gold}
             </div>
             <div
               className=" flex  justify-center items-center sm:text-3xl text-cyan-500 tooltip "
               data-tip="gem"
             >
-              <IoDiamondOutline className="pr-2" />0{store.gem}
+              <IoDiamondOutline className="pr-2" />
+              {store.gem}
             </div>
             <label
               htmlFor="my-modal"
