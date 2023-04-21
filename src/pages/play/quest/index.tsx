@@ -64,7 +64,7 @@ export default function Quest() {
           <RiCoinLine className="" />
         </div>
       </label>
-      {/* <label
+      <label
         htmlFor="gem-quest"
         className="absolute left-[46%] top-[40%] btn mt-2 bg-[#9696ea] btn-accent gap-4"
       >
@@ -73,9 +73,9 @@ export default function Quest() {
           +1
           <IoDiamondOutline className="" />
         </div>
-      </label> */}
+      </label>
       <GoldModal />
-      {/* <GemModal /> */}
+      <GemModal />
     </motion.div>
   );
 }
