@@ -181,6 +181,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "getSecondArena()": FunctionFragment;
     "getTotalLosses(uint256)": FunctionFragment;
     "getTotalWins(uint256)": FunctionFragment;
+    "leaveMainArena(uint256)": FunctionFragment;
     "openArenas()": FunctionFragment;
     "craftArmor(uint256)": FunctionFragment;
     "craftGuitar(uint256)": FunctionFragment;
@@ -191,7 +192,6 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "getItem(uint256)": FunctionFragment;
     "getItemCount()": FunctionFragment;
     "getItems(address)": FunctionFragment;
-    "mintCoins()": FunctionFragment;
     "diamondCut((address,uint8,bytes4[])[],address,bytes)": FunctionFragment;
     "facetAddress(bytes4)": FunctionFragment;
     "facetAddresses()": FunctionFragment;
@@ -219,12 +219,14 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "playerCount()": FunctionFragment;
     "endQuestGem(uint256)": FunctionFragment;
     "endQuestGold(uint256)": FunctionFragment;
+    "getCooldown(uint256)": FunctionFragment;
     "getGemBalance(address)": FunctionFragment;
     "getGemStart(uint256)": FunctionFragment;
     "getGoldBalance(address)": FunctionFragment;
     "getGoldStart(uint256)": FunctionFragment;
     "startQuestGem(uint256)": FunctionFragment;
     "startQuestGold(uint256)": FunctionFragment;
+    "openSecondArena()": FunctionFragment;
     "endTrainingCombat(uint256)": FunctionFragment;
     "endTrainingMana(uint256)": FunctionFragment;
     "getCombatStart(uint256)": FunctionFragment;
@@ -251,6 +253,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "getSecondArena"
       | "getTotalLosses"
       | "getTotalWins"
+      | "leaveMainArena"
       | "openArenas"
       | "craftArmor"
       | "craftGuitar"
@@ -261,7 +264,6 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "getItem"
       | "getItemCount"
       | "getItems"
-      | "mintCoins"
       | "diamondCut((address,uint8,bytes4[])[],address,bytes)"
       | "diamondCut((address,uint8,bytes4[])[],address,bytes)"
       | "facetAddress(bytes4)"
@@ -297,12 +299,14 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "playerCount"
       | "endQuestGem"
       | "endQuestGold"
+      | "getCooldown"
       | "getGemBalance"
       | "getGemStart"
       | "getGoldBalance"
       | "getGoldStart"
       | "startQuestGem"
       | "startQuestGold"
+      | "openSecondArena"
       | "endTrainingCombat"
       | "endTrainingMana"
       | "getCombatStart"
@@ -373,6 +377,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "leaveMainArena",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "openArenas",
     values?: undefined
   ): string;
@@ -412,7 +420,6 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     functionFragment: "getItems",
     values: [PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(functionFragment: "mintCoins", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "diamondCut((address,uint8,bytes4[])[],address,bytes)",
     values: [
@@ -554,6 +561,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getCooldown",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getGemBalance",
     values: [PromiseOrValue<string>]
   ): string;
@@ -576,6 +587,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "startQuestGold",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "openSecondArena",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "endTrainingCombat",
@@ -663,6 +678,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     functionFragment: "getTotalWins",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "leaveMainArena",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "openArenas", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "craftArmor", data: BytesLike): Result;
   decodeFunctionResult(
@@ -688,7 +707,6 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getItems", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "mintCoins", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "diamondCut((address,uint8,bytes4[])[],address,bytes)",
     data: BytesLike
@@ -797,6 +815,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getCooldown",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getGemBalance",
     data: BytesLike
   ): Result;
@@ -818,6 +840,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "startQuestGold",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "openSecondArena",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1003,6 +1029,18 @@ export interface DiamondCut_tuple_array_address_bytes_EventObject {
   _init: string;
   _calldata: string;
 }
+
+export interface DiamondCut_tuple_array_address_bytes_EventObject {
+  _diamondCut: IDiamond.FacetCutStructOutput[];
+  _init: string;
+  _calldata: string;
+}
+
+export interface DiamondCut_tuple_array_address_bytes_EventObject {
+  _diamondCut: IDiamond.FacetCutStructOutput[];
+  _init: string;
+  _calldata: string;
+}
 export type DiamondCut_tuple_array_address_bytes_Event = TypedEvent<
   [IDiamond.FacetCutStructOutput[], string, string],
   DiamondCut_tuple_array_address_bytes_EventObject
@@ -1010,18 +1048,6 @@ export type DiamondCut_tuple_array_address_bytes_Event = TypedEvent<
 
 export type DiamondCut_tuple_array_address_bytes_EventFilter =
   TypedEventFilter<DiamondCut_tuple_array_address_bytes_Event>;
-
-export interface DiamondCut_tuple_array_address_bytes_EventObject {
-  _diamondCut: IDiamond.FacetCutStructOutput[];
-  _init: string;
-  _calldata: string;
-}
-
-export interface DiamondCut_tuple_array_address_bytes_EventObject {
-  _diamondCut: IDiamond.FacetCutStructOutput[];
-  _init: string;
-  _calldata: string;
-}
 
 export interface ItemEquipedEventObject {
   _owner: string;
@@ -1074,16 +1100,6 @@ export interface OwnershipTransferred_address_address_EventObject {
   previousOwner: string;
   newOwner: string;
 }
-
-export interface OwnershipTransferred_address_address_EventObject {
-  previousOwner: string;
-  newOwner: string;
-}
-
-export interface OwnershipTransferred_address_address_EventObject {
-  previousOwner: string;
-  newOwner: string;
-}
 export type OwnershipTransferred_address_address_Event = TypedEvent<
   [string, string],
   OwnershipTransferred_address_address_EventObject
@@ -1091,6 +1107,16 @@ export type OwnershipTransferred_address_address_Event = TypedEvent<
 
 export type OwnershipTransferred_address_address_EventFilter =
   TypedEventFilter<OwnershipTransferred_address_address_Event>;
+
+export interface OwnershipTransferred_address_address_EventObject {
+  previousOwner: string;
+  newOwner: string;
+}
+
+export interface OwnershipTransferred_address_address_EventObject {
+  previousOwner: string;
+  newOwner: string;
+}
 
 export interface MintEventObject {
   id: BigNumber;
@@ -1279,6 +1305,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    leaveMainArena(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     openArenas(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -1326,10 +1357,6 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber[]] & { items: BigNumber[] }>;
-
-    mintCoins(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
 
     "diamondCut((address,uint8,bytes4[])[],address,bytes)"(
       _diamondCut: IDiamond.FacetCutStruct[],
@@ -1512,6 +1539,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getCooldown(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     getGemBalance(
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1539,6 +1571,10 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
     startQuestGold(
       _tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    openSecondArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1643,6 +1679,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  leaveMainArena(
+    _playerId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   openArenas(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -1688,10 +1729,6 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     _address: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
-
-  mintCoins(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
 
   "diamondCut((address,uint8,bytes4[])[],address,bytes)"(
     _diamondCut: IDiamond.FacetCutStruct[],
@@ -1862,6 +1899,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getCooldown(
+    _playerId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   getGemBalance(
     _address: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -1889,6 +1931,10 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
   startQuestGold(
     _tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  openSecondArena(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1993,6 +2039,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    leaveMainArena(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     openArenas(overrides?: CallOverrides): Promise<void>;
 
     craftArmor(
@@ -2036,8 +2087,6 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
-
-    mintCoins(overrides?: CallOverrides): Promise<void>;
 
     "diamondCut((address,uint8,bytes4[])[],address,bytes)"(
       _diamondCut: IDiamond.FacetCutStruct[],
@@ -2208,6 +2257,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getCooldown(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getGemBalance(
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -2237,6 +2291,8 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    openSecondArena(overrides?: CallOverrides): Promise<void>;
 
     endTrainingCombat(
       _tokenId: PromiseOrValue<BigNumberish>,
@@ -2566,6 +2622,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    leaveMainArena(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     openArenas(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -2610,10 +2671,6 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     getItems(
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mintCoins(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     "diamondCut((address,uint8,bytes4[])[],address,bytes)"(
@@ -2781,6 +2838,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getCooldown(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getGemBalance(
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -2808,6 +2870,10 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
     startQuestGold(
       _tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    openSecondArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -2913,6 +2979,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    leaveMainArena(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     openArenas(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -2957,10 +3028,6 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     getItems(
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    mintCoins(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     "diamondCut((address,uint8,bytes4[])[],address,bytes)"(
@@ -3132,6 +3199,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    getCooldown(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getGemBalance(
       _address: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -3159,6 +3231,10 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
     startQuestGold(
       _tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    openSecondArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
