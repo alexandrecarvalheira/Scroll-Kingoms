@@ -1,5 +1,5 @@
 import Image from "next/image";
-import contractStore from "@/store/contractStore";
+import playerStore, { contractStore } from "@/store/contractStore";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import Diamond from "@/contracts/data/diamond.json";
@@ -19,34 +19,29 @@ import { HiArrowSmRight, HiArrowSmLeft } from "react-icons/hi";
 import InventoryModal from "./inventoryModal";
 export default function PlayerCard() {
   const { address } = useAccount();
-  const store = contractStore();
+  const store = playerStore();
+  const diamond = contractStore((state) => state.diamond);
+
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (address) {
+    if (address && diamond) {
       const loadContract = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        // Get signer
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(
-          process.env.NEXT_PUBLIC_DIAMOND_ADDRESS,
-          Diamond.abi,
-          signer
-        );
-        const response = await contract.getPlayers(address);
+        console.log(diamond);
+        const response = await diamond.getPlayers(address);
         const players = await response.map((val) => val.toNumber());
-        const player = await contract.getPlayer(players[index]);
+        const player = await diamond.getPlayer(players[index]);
         store.setSelectedPlayer(players[index]);
         store.setPlayer(await player);
         store.setStatus(await player.status.toNumber());
-        const gold = await contract.getGoldBalance(address);
+        const gold = await diamond.getGoldBalance(address);
         store.setGold(await gold.toNumber());
-        const gem = await contract.getGemBalance(address);
+        const gem = await diamond.getGemBalance(address);
         store.setGem(await gem.toNumber());
       };
       loadContract();
     }
-  }, [index, address]);
+  }, [index, address, diamond]);
   function statusSwitch(status) {
     switch (status) {
       case 0:
@@ -193,15 +188,13 @@ export default function PlayerCard() {
               className=" flex  justify-center items-center sm:text-3xl text-amber-500 tooltip "
               data-tip="gold"
             >
-              <RiCoinLine className="pr-2" />
-              {store.gold}
+              <RiCoinLine className="pr-2" />0{store.gold}
             </div>
             <div
               className=" flex  justify-center items-center sm:text-3xl text-cyan-500 tooltip "
               data-tip="gem"
             >
-              <IoDiamondOutline className="pr-2" />
-              {store.gem}
+              <IoDiamondOutline className="pr-2" />0{store.gem}
             </div>
             <label
               htmlFor="my-modal"
