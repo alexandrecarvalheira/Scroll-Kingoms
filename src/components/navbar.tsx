@@ -99,16 +99,15 @@ export default function Navbar() {
                 Docs
               </Link>
             </li>
-            {chain?.id === 5001 && (
-              <li className=" rounded-lg  hover:bg-gray-600 ">
-                <Link
-                  href={"https://www.incepthink.com/mantle/faucet"}
-                  target="_blank"
-                >
-                  Mantle Faucets
-                </Link>
-              </li>
-            )}
+
+            <li className=" rounded-lg  hover:bg-gray-600 ">
+              <Link
+                href={"https://www.incepthink.com/mantle/faucet"}
+                target="_blank"
+              >
+                Mantle Faucets
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="navbar-end mr-4">
