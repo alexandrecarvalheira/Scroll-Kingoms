@@ -38,12 +38,13 @@ export default function App({ Component, pageProps }: AppProps) {
       let diamondAddress;
       if (chain?.id === 5001) {
         diamondAddress = process.env.NEXT_PUBLIC_DIAMOND_ADDRESS_MANTLE;
-      } else if (chain?.id === 534353) {
+      } else {
         diamondAddress = process.env.NEXT_PUBLIC_DIAMOND_ADDRESS;
       }
       const provider = new ethers.providers.Web3Provider(
         window.ethereum as any
       );
+      console.log(diamondAddress);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
         diamondAddress as string,

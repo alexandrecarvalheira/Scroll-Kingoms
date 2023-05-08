@@ -28,8 +28,8 @@ export default function Play() {
       }
     };
     loadContract();
-  }, [address]);
-  if (!address || (chain?.id === 534353 && chain?.id === 5001)) {
+  }, [address, chain]);
+  if (!address || (chain?.id !== 534353 && chain?.id !== 5001)) {
     return (
       <div className="relative min-h-[85vh] min-w-full flex flex-col items-center justify-center">
         <h2 className="font-bold text-white m-4">Connect to play</h2>
