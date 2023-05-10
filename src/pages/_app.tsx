@@ -59,7 +59,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <WagmiProvider>
         <NextHead>
-          <title>Scroll Kingdoms</title>
+          <title>Omni Kingdoms</title>
         </NextHead>
         <main className={`${poppins.variable} `}>
           <Navbar />

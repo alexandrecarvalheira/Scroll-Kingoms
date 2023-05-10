@@ -36,7 +36,7 @@ const { chains, provider } = configureChains(
   [publicProvider()]
 );
 const { connectors } = getDefaultWallets({
-  appName: "Scroll Kingdoms",
+  appName: "Omni Kingdoms",
   chains,
 });
 
@@ -53,7 +53,7 @@ export default function WagmiProvider({
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} initialChain={scrollTestnet}>
+        <RainbowKitProvider chains={chains} initialChain={mantletestnet}>
           {children}
         </RainbowKitProvider>
       </WagmiConfig>

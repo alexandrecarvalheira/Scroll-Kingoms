@@ -69,7 +69,7 @@ export default function Navbar() {
             href="/"
             className="btn btn-ghost normal-case text-xl  hover:bg-gray-600 "
           >
-            Scroll Kingdoms
+            Omni Kingdoms
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex ">

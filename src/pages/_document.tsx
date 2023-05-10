@@ -1,8 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
 export const metadata = {
-  title: "Scroll Kingdoms",
-  description: "Scroll Kingdoms crosschain game",
+  title: "Omni Kingdoms",
+  description: "Omni Kingdoms crosschain game",
 };
 
 export default function Document() {
