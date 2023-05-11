@@ -138,6 +138,20 @@ export type PlayerStructOutput = [
   slot: SlotStructOutput;
 };
 
+export type TreasureStruct = {
+  id: PromiseOrValue<BigNumberish>;
+  rank: PromiseOrValue<BigNumberish>;
+  pointer: PromiseOrValue<BigNumberish>;
+  name: PromiseOrValue<string>;
+};
+
+export type TreasureStructOutput = [BigNumber, BigNumber, BigNumber, string] & {
+  id: BigNumber;
+  rank: BigNumber;
+  pointer: BigNumber;
+  name: string;
+};
+
 export declare namespace IDiamond {
   export type FacetCutStruct = {
     facetAddress: PromiseOrValue<string>;
@@ -204,8 +218,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "unequipBody(uint256,uint256)": FunctionFragment;
     "unequipHead(uint256,uint256)": FunctionFragment;
     "unequipRightHand(uint256,uint256)": FunctionFragment;
-    "_getListing(address)": FunctionFragment;
     "crateListing(uint256,uint256)": FunctionFragment;
+    "getAllListings()": FunctionFragment;
+    "getLisitng(uint256)": FunctionFragment;
+    "getListings(address)": FunctionFragment;
     "purchasePlayer(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -217,6 +233,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "nameAvailable(string)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "playerCount()": FunctionFragment;
+    "dragonQuest(uint256)": FunctionFragment;
     "endQuestGem(uint256)": FunctionFragment;
     "endQuestGold(uint256)": FunctionFragment;
     "getCooldown(uint256)": FunctionFragment;
@@ -224,9 +241,11 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "getGemStart(uint256)": FunctionFragment;
     "getGoldBalance(address)": FunctionFragment;
     "getGoldStart(uint256)": FunctionFragment;
+    "getTreasure(uint256)": FunctionFragment;
+    "getTreasures(uint256)": FunctionFragment;
     "startQuestGem(uint256)": FunctionFragment;
     "startQuestGold(uint256)": FunctionFragment;
-    "openSecondArena()": FunctionFragment;
+    "openArena()": FunctionFragment;
     "endTrainingCombat(uint256)": FunctionFragment;
     "endTrainingMana(uint256)": FunctionFragment;
     "getCombatStart(uint256)": FunctionFragment;
@@ -282,8 +301,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "unequipBody"
       | "unequipHead"
       | "unequipRightHand"
-      | "_getListing"
       | "crateListing"
+      | "getAllListings"
+      | "getLisitng"
+      | "getListings"
       | "purchasePlayer"
       | "owner()"
       | "owner()"
@@ -297,6 +318,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "nameAvailable"
       | "ownerOf"
       | "playerCount"
+      | "dragonQuest"
       | "endQuestGem"
       | "endQuestGold"
       | "getCooldown"
@@ -304,9 +326,11 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "getGemStart"
       | "getGoldBalance"
       | "getGoldStart"
+      | "getTreasure"
+      | "getTreasures"
       | "startQuestGem"
       | "startQuestGold"
-      | "openSecondArena"
+      | "openArena"
       | "endTrainingCombat"
       | "endTrainingMana"
       | "getCombatStart"
@@ -495,12 +519,20 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "_getListing",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "crateListing",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAllListings",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getLisitng",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getListings",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "purchasePlayer",
@@ -553,6 +585,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "dragonQuest",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "endQuestGem",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -581,6 +617,14 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getTreasure",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTreasures",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "startQuestGem",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -588,10 +632,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     functionFragment: "startQuestGold",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(
-    functionFragment: "openSecondArena",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "openArena", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "endTrainingCombat",
     values: [PromiseOrValue<BigNumberish>]
@@ -768,11 +809,16 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "_getListing",
+    functionFragment: "crateListing",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "crateListing",
+    functionFragment: "getAllListings",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getLisitng", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getListings",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -807,6 +853,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "dragonQuest",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "endQuestGem",
     data: BytesLike
   ): Result;
@@ -835,6 +885,14 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getTreasure",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTreasures",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "startQuestGem",
     data: BytesLike
   ): Result;
@@ -842,10 +900,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     functionFragment: "startQuestGold",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "openSecondArena",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "openArena", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "endTrainingCombat",
     data: BytesLike
@@ -1100,16 +1155,6 @@ export interface OwnershipTransferred_address_address_EventObject {
   previousOwner: string;
   newOwner: string;
 }
-
-export interface OwnershipTransferred_address_address_EventObject {
-  previousOwner: string;
-  newOwner: string;
-}
-
-export interface OwnershipTransferred_address_address_EventObject {
-  previousOwner: string;
-  newOwner: string;
-}
 export type OwnershipTransferred_address_address_Event = TypedEvent<
   [string, string],
   OwnershipTransferred_address_address_EventObject
@@ -1117,6 +1162,16 @@ export type OwnershipTransferred_address_address_Event = TypedEvent<
 
 export type OwnershipTransferred_address_address_EventFilter =
   TypedEventFilter<OwnershipTransferred_address_address_Event>;
+
+export interface OwnershipTransferred_address_address_EventObject {
+  previousOwner: string;
+  newOwner: string;
+}
+
+export interface OwnershipTransferred_address_address_EventObject {
+  previousOwner: string;
+  newOwner: string;
+}
 
 export interface MintEventObject {
   id: BigNumber;
@@ -1458,16 +1513,29 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    _getListing(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[void]>;
-
     crateListing(
       _id: PromiseOrValue<BigNumberish>,
       _price: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    getAllListings(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
+    getLisitng(
+      _listingId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber] & {
+        seller: string;
+        playerId: BigNumber;
+        price: BigNumber;
+      }
+    >;
+
+    getListings(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
 
     purchasePlayer(
       _listingId: PromiseOrValue<BigNumberish>,
@@ -1529,6 +1597,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
     playerCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    dragonQuest(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     endQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1564,6 +1637,16 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    getTreasure(
+      _treasureId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[TreasureStructOutput]>;
+
+    getTreasures(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
     startQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1574,7 +1657,7 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    openSecondArena(
+    openArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1822,16 +1905,29 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  _getListing(
-    _address: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
   crateListing(
     _id: PromiseOrValue<BigNumberish>,
     _price: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  getAllListings(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+  getLisitng(
+    _listingId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, BigNumber, BigNumber] & {
+      seller: string;
+      playerId: BigNumber;
+      price: BigNumber;
+    }
+  >;
+
+  getListings(
+    _address: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
 
   purchasePlayer(
     _listingId: PromiseOrValue<BigNumberish>,
@@ -1889,6 +1985,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
   playerCount(overrides?: CallOverrides): Promise<BigNumber>;
 
+  dragonQuest(
+    _playerId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   endQuestGem(
     _tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1924,6 +2025,16 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getTreasure(
+    _treasureId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<TreasureStructOutput>;
+
+  getTreasures(
+    _playerId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
   startQuestGem(
     _tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1934,7 +2045,7 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  openSecondArena(
+  openArena(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -2180,16 +2291,29 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    _getListing(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     crateListing(
       _id: PromiseOrValue<BigNumberish>,
       _price: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    getAllListings(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+    getLisitng(
+      _listingId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber] & {
+        seller: string;
+        playerId: BigNumber;
+        price: BigNumber;
+      }
+    >;
+
+    getListings(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
 
     purchasePlayer(
       _listingId: PromiseOrValue<BigNumberish>,
@@ -2247,6 +2371,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
     playerCount(overrides?: CallOverrides): Promise<BigNumber>;
 
+    dragonQuest(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     endQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -2282,6 +2411,16 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getTreasure(
+      _treasureId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<TreasureStructOutput>;
+
+    getTreasures(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
     startQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -2292,7 +2431,7 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    openSecondArena(overrides?: CallOverrides): Promise<void>;
+    openArena(overrides?: CallOverrides): Promise<void>;
 
     endTrainingCombat(
       _tokenId: PromiseOrValue<BigNumberish>,
@@ -2761,15 +2900,22 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    _getListing(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     crateListing(
       _id: PromiseOrValue<BigNumberish>,
       _price: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    getAllListings(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getLisitng(
+      _listingId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getListings(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     purchasePlayer(
@@ -2828,6 +2974,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
     playerCount(overrides?: CallOverrides): Promise<BigNumber>;
 
+    dragonQuest(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     endQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2863,6 +3014,16 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getTreasure(
+      _treasureId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getTreasures(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     startQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2873,7 +3034,7 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    openSecondArena(
+    openArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -3122,15 +3283,22 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    _getListing(
-      _address: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     crateListing(
       _id: PromiseOrValue<BigNumberish>,
       _price: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getAllListings(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getLisitng(
+      _listingId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getListings(
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     purchasePlayer(
@@ -3189,6 +3357,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
 
     playerCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    dragonQuest(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     endQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -3224,6 +3397,16 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getTreasure(
+      _treasureId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getTreasures(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     startQuestGem(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -3234,7 +3417,7 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    openSecondArena(
+    openArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
