@@ -129,6 +129,50 @@ export default function MainArenaModal() {
       }
     }
   }
+  async function handleLeaveArena() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+    // Get signer
+
+    try {
+      const quest = await diamond?.leaveMainArena(selectedPlayer);
+      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+        pending: "Tx pending: " + quest?.hash,
+        success: {
+          render() {
+            setEndQuest(false);
+            setArena(true);
+
+            return "Success: " + quest?.hash;
+          },
+        },
+        error: "Tx failed",
+      });
+    } catch (error: any) {
+      if (error.data) {
+        toast.error(error.data.message as string, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error.reason as string, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    }
+  }
 
   return (
     <>
@@ -139,13 +183,24 @@ export default function MainArenaModal() {
             Fight for gold in the Arena!
           </h3>
           <div className="flex flex-col w-full ">
-            <button
-              className="btn grid flex-grow h-12 card  rounded-box place-items-center bg-[#9696ea] btn-accent "
-              onClick={handleEnterArena}
-              disabled={endQuest || !arena}
-            >
-              Enter Arena
-            </button>
+            {!endQuest || arena ? (
+              <button
+                className="btn grid flex-grow h-12 card  rounded-box place-items-center bg-[#9696ea] btn-accent "
+                onClick={handleEnterArena}
+                disabled={endQuest || !arena}
+              >
+                Enter Arena
+              </button>
+            ) : (
+              <button
+                className="btn grid flex-grow h-12 card  rounded-box place-items-center bg-[#9696ea] btn-accent "
+                onClick={handleLeaveArena}
+                disabled={!endQuest || arena}
+              >
+                Leave Arena
+              </button>
+            )}
+
             <div className="divider "></div>
           </div>
           {(endQuest || !arena) && (

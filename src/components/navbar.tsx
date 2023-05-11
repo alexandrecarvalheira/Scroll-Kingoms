@@ -1,10 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useNetwork } from "wagmi";
 
 import Link from "next/link";
 export default function Navbar() {
-  const { chain } = useNetwork();
-
   return (
     <>
       <div className="navbar font-bold z-30 bg-black text-slate-50 relative">
@@ -53,16 +50,14 @@ export default function Navbar() {
                   Docs
                 </Link>
               </li>
-              {chain?.id === 5001 && (
-                <li>
-                  <Link
-                    href={"https://www.incepthink.com/mantle/faucet"}
-                    target="_blank"
-                  >
-                    Mantle Faucets
-                  </Link>
-                </li>
-              )}
+              <li>
+                <Link
+                  href={"https://www.incepthink.com/mantle/faucet"}
+                  target="_blank"
+                >
+                  Mantle Faucets
+                </Link>
+              </li>
             </ul>
           </div>
           <Link

@@ -12,9 +12,10 @@ import { GiPotionBall } from "react-icons/gi";
 import { GoLightBulb } from "react-icons/go";
 import { SiGhost } from "react-icons/si";
 import { TfiEye } from "react-icons/tfi";
-import { RiCoinLine } from "react-icons/ri";
+import { RiCoinLine, RiSwordLine } from "react-icons/ri";
 import { IoDiamondOutline } from "react-icons/io5";
 import { HiArrowSmRight, HiArrowSmLeft } from "react-icons/hi";
+import { IoSkullOutline } from "react-icons/io5";
 
 import InventoryModal from "./inventoryModal";
 export default function PlayerCard() {
@@ -27,13 +28,16 @@ export default function PlayerCard() {
   useEffect(() => {
     if (address && diamond) {
       const loadContract = async () => {
-        console.log(diamond);
         const response = await diamond.getPlayers(address);
         const players = await response.map((val) => val.toNumber());
         const player = await diamond.getPlayer(players[index]);
         store.setSelectedPlayer(players[index]);
         store.setPlayer(await player);
         store.setStatus(await player.status.toNumber());
+        const wins = await diamond.getTotalWins(players[index]);
+        const losses = await diamond.getTotalLosses(players[index]);
+        store.setWins(wins.toNumber());
+        store.setLosses(losses.toNumber());
         const gold = await diamond.getGoldBalance(address);
         store.setGold(await gold.toNumber());
         const gem = await diamond.getGemBalance(address);
@@ -121,7 +125,7 @@ export default function PlayerCard() {
               ></progress> */}
             </div>
           </div>
-          <div className="flex md:flex-row flex-col gap-1  my-auto">
+          <div className="flex md:flex-row flex-col gap-1  my-auto  justify-center">
             <div
               className=" flex justify-center items-center sm:text-3xl text-purple-900  tooltip"
               data-tip="strength"
@@ -135,51 +139,33 @@ export default function PlayerCard() {
               <AiOutlineHeart />
               {store.player?.health.toNumber()}
             </div>
+          </div>
+          <div className="flex md:flex-row flex-col gap-1 my-auto justify-center ">
             <div
               className=" flex justify-center items-center sm:text-3xl text-purple-900 tooltip"
               data-tip="magic"
             >
               <SlEnergy />0{store.player?.magic.toNumber()}
             </div>
-          </div>
-          <div className="flex md:flex-row flex-col gap-1 my-auto ">
             <div
               className=" flex justify-center items-center sm:text-3xl text-purple-900 tooltip"
               data-tip="mana"
             >
               <GiPotionBall />0{store.player?.mana.toNumber()}
             </div>
-            <div
-              className=" flex justify-center items-center sm:text-3xl text-purple-900 tooltip"
-              data-tip="agility"
-            >
-              <TbBrandTailwind />0{store.player?.agility.toNumber()}
-            </div>
-            <div
-              className=" flex justify-center items-center sm:text-3xl text-purple-900 tooltip"
-              data-tip="luck"
-            >
-              <TbClover />0{store.player?.luck.toNumber()}
-            </div>
           </div>
-          <div className="flex md:flex-row flex-col gap-1 my-auto ">
+          <div className="flex md:flex-row flex-col gap-1 my-auto justify-center">
             <div
-              className=" flex justify-center items-center sm:text-3xl text-purple-900 tooltip "
-              data-tip="wisdom"
+              className=" flex justify-center items-center sm:text-3xl text-green-600 tooltip"
+              data-tip="total wins"
             >
-              <GoLightBulb />0{store.player?.wisdom.toNumber()}
+              <RiSwordLine />0{store.wins}
             </div>
             <div
-              className=" flex justify-center items-center sm:text-3xl text-purple-900 tooltip"
-              data-tip="haki"
+              className=" flex justify-center items-center sm:text-3xl text-red-600 tooltip"
+              data-tip="total losses"
             >
-              <SiGhost />0{store.player?.haki.toNumber()}
-            </div>
-            <div
-              className=" flex justify-center items-center sm:text-3xl text-purple-900 tooltip"
-              data-tip="perception"
-            >
-              <TfiEye />0{store.player?.perception.toNumber()}
+              <IoSkullOutline />0{store.losses}
             </div>
           </div>
 
@@ -196,6 +182,8 @@ export default function PlayerCard() {
             >
               <IoDiamondOutline className="pr-2" />0{store.gem}
             </div>
+          </div>
+          <div className="flex md:flex-row flex-col items-center justify-center gap-1 my-auto ">
             <label
               htmlFor="my-modal"
               className="bg-[#9696ea]  px-2 py-1 rounded-lg h-fit text-white"
