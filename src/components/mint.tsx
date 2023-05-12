@@ -81,7 +81,7 @@ export default function Mint() {
         player.gender
       );
       setIsLoading(false);
-      toast.promise(provider.waitForTransaction(mint?.hash as any), {
+      toast.promise(mint!.wait(), {
         pending: "Tx pending: " + mint?.hash,
         success: {
           render() {

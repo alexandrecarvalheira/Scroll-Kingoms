@@ -947,6 +947,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "Mint(uint256,address,string,string)": EventFragment;
     "NameChange(address,uint256,string)": EventFragment;
     "BeginQuesting(address,uint256)": EventFragment;
+    "DragonQuest(uint256)": EventFragment;
     "EndQuesting(address,uint256)": EventFragment;
     "BeginTrainingCombat(address,uint256)": EventFragment;
     "BeginTrainingMana(address,uint256)": EventFragment;
@@ -992,6 +993,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NameChange"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeginQuesting"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DragonQuest"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EndQuesting"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeginTrainingCombat"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeginTrainingMana"): EventFragment;
@@ -1078,6 +1080,24 @@ export interface DiamondCut_tuple_array_address_bytes_EventObject {
   _init: string;
   _calldata: string;
 }
+
+export interface DiamondCut_tuple_array_address_bytes_EventObject {
+  _diamondCut: IDiamond.FacetCutStructOutput[];
+  _init: string;
+  _calldata: string;
+}
+
+export interface DiamondCut_tuple_array_address_bytes_EventObject {
+  _diamondCut: IDiamond.FacetCutStructOutput[];
+  _init: string;
+  _calldata: string;
+}
+
+export interface DiamondCut_tuple_array_address_bytes_EventObject {
+  _diamondCut: IDiamond.FacetCutStructOutput[];
+  _init: string;
+  _calldata: string;
+}
 export type DiamondCut_tuple_array_address_bytes_Event = TypedEvent<
   [IDiamond.FacetCutStructOutput[], string, string],
   DiamondCut_tuple_array_address_bytes_EventObject
@@ -1085,24 +1105,6 @@ export type DiamondCut_tuple_array_address_bytes_Event = TypedEvent<
 
 export type DiamondCut_tuple_array_address_bytes_EventFilter =
   TypedEventFilter<DiamondCut_tuple_array_address_bytes_Event>;
-
-export interface DiamondCut_tuple_array_address_bytes_EventObject {
-  _diamondCut: IDiamond.FacetCutStructOutput[];
-  _init: string;
-  _calldata: string;
-}
-
-export interface DiamondCut_tuple_array_address_bytes_EventObject {
-  _diamondCut: IDiamond.FacetCutStructOutput[];
-  _init: string;
-  _calldata: string;
-}
-
-export interface DiamondCut_tuple_array_address_bytes_EventObject {
-  _diamondCut: IDiamond.FacetCutStructOutput[];
-  _init: string;
-  _calldata: string;
-}
 
 export interface ItemEquipedEventObject {
   _owner: string;
@@ -1155,6 +1157,16 @@ export interface OwnershipTransferred_address_address_EventObject {
   previousOwner: string;
   newOwner: string;
 }
+
+export interface OwnershipTransferred_address_address_EventObject {
+  previousOwner: string;
+  newOwner: string;
+}
+
+export interface OwnershipTransferred_address_address_EventObject {
+  previousOwner: string;
+  newOwner: string;
+}
 export type OwnershipTransferred_address_address_Event = TypedEvent<
   [string, string],
   OwnershipTransferred_address_address_EventObject
@@ -1162,16 +1174,6 @@ export type OwnershipTransferred_address_address_Event = TypedEvent<
 
 export type OwnershipTransferred_address_address_EventFilter =
   TypedEventFilter<OwnershipTransferred_address_address_Event>;
-
-export interface OwnershipTransferred_address_address_EventObject {
-  previousOwner: string;
-  newOwner: string;
-}
-
-export interface OwnershipTransferred_address_address_EventObject {
-  previousOwner: string;
-  newOwner: string;
-}
 
 export interface MintEventObject {
   id: BigNumber;
@@ -1208,6 +1210,13 @@ export type BeginQuestingEvent = TypedEvent<
 >;
 
 export type BeginQuestingEventFilter = TypedEventFilter<BeginQuestingEvent>;
+
+export interface DragonQuestEventObject {
+  _playerId: BigNumber;
+}
+export type DragonQuestEvent = TypedEvent<[BigNumber], DragonQuestEventObject>;
+
+export type DragonQuestEventFilter = TypedEventFilter<DragonQuestEvent>;
 
 export interface EndQuestingEventObject {
   _playerAddress: string;
@@ -2647,6 +2656,13 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       _playerAddress?: PromiseOrValue<string> | null,
       _id?: null
     ): BeginQuestingEventFilter;
+
+    "DragonQuest(uint256)"(
+      _playerId?: PromiseOrValue<BigNumberish> | null
+    ): DragonQuestEventFilter;
+    DragonQuest(
+      _playerId?: PromiseOrValue<BigNumberish> | null
+    ): DragonQuestEventFilter;
 
     "EndQuesting(address,uint256)"(
       _playerAddress?: PromiseOrValue<string> | null,

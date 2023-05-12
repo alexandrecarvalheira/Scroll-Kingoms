@@ -20,7 +20,8 @@ export default function CombatTrainingModal() {
       selectedPlayer
     )) as any;
     const startTime = blockTimestamp.toNumber() as any;
-    const curTime = (Date.now() / 1000).toFixed(0) as any;
+    const currentTimeStamp = (await diamond?.getBlocktime()) as any;
+    const curTime = currentTimeStamp.toNumber() as any;
     const time = curTime - startTime;
     if (time < 120) {
       setCountdown(120 - time); // 2min
@@ -44,7 +45,7 @@ export default function CombatTrainingModal() {
 
     try {
       const train = await diamond?.startTrainingCombat(selectedPlayer);
-      toast.promise(provider.waitForTransaction(train?.hash as any), {
+      toast.promise(train!.wait(), {
         pending: "Tx pending: " + train?.hash,
         success: {
           render() {

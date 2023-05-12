@@ -22,7 +22,7 @@ export default function InventoryModal() {
       setItens((await itensarr) as any);
     };
     loadContract();
-  }, [address]);
+  }, [address, player]);
 
   return (
     <>

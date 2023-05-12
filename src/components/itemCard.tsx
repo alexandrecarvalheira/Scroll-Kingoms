@@ -33,7 +33,7 @@ export default function ItemCard({ itemId }: any) {
     if (item?.slot.toNumber() === 1) {
       try {
         const equip = await diamond?.equipBody(selectedPlayer, itemId);
-        toast.promise(provider.waitForTransaction(equip?.hash as any), {
+        toast.promise(equip!.wait(), {
           pending: "Tx pending: " + equip?.hash,
           success: {
             render() {
@@ -71,7 +71,7 @@ export default function ItemCard({ itemId }: any) {
     if (item?.slot.toNumber() === 0) {
       try {
         const equip = await diamond?.equipHead(selectedPlayer, itemId);
-        toast.promise(provider.waitForTransaction(equip?.hash as any), {
+        toast.promise(equip!.wait(), {
           pending: "Tx pending: " + equip?.hash,
           success: {
             render() {
@@ -109,7 +109,7 @@ export default function ItemCard({ itemId }: any) {
     if (item?.slot.toNumber() === 2 || item?.slot.toNumber() === 3) {
       try {
         const equip = await diamond?.equipRightHand(selectedPlayer, itemId);
-        toast.promise(provider.waitForTransaction(equip?.hash as any), {
+        toast.promise(equip!.wait(), {
           pending: "Tx pending: " + equip?.hash,
           success: {
             render() {
@@ -152,7 +152,7 @@ export default function ItemCard({ itemId }: any) {
     if (item?.slot.toNumber() === 1) {
       try {
         const equip = await diamond?.unequipBody(selectedPlayer, itemId);
-        toast.promise(provider.waitForTransaction(equip?.hash as any), {
+        toast.promise(equip!.wait(), {
           pending: "Tx pending: " + equip?.hash,
           success: {
             render() {
@@ -190,7 +190,7 @@ export default function ItemCard({ itemId }: any) {
     if (item?.slot.toNumber() === 0) {
       try {
         const equip = await diamond?.unequipHead(selectedPlayer, itemId);
-        toast.promise(provider.waitForTransaction(equip?.hash as any), {
+        toast.promise(equip!.wait(), {
           pending: "Tx pending: " + equip?.hash,
           success: {
             render() {
@@ -228,7 +228,7 @@ export default function ItemCard({ itemId }: any) {
     if (item?.slot.toNumber() === 2 || item?.slot.toNumber() === 3) {
       try {
         const equip = await diamond?.unequipRightHand(selectedPlayer, itemId);
-        toast.promise(provider.waitForTransaction(equip?.hash as any), {
+        toast.promise(equip!.wait(), {
           pending: "Tx pending: " + equip?.hash,
           success: {
             render() {

@@ -48,7 +48,7 @@ export default function MainArenaModal() {
     const provider = new ethers.providers.Web3Provider(window.ethereum as any);
     try {
       const quest = await diamond?.enterMainArena(selectedPlayer);
-      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+      toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
           render() {
@@ -91,7 +91,7 @@ export default function MainArenaModal() {
 
     try {
       const quest = await diamond?.fightMainArena(selectedPlayer);
-      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+      toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
           render() {
@@ -135,7 +135,7 @@ export default function MainArenaModal() {
 
     try {
       const quest = await diamond?.leaveMainArena(selectedPlayer);
-      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+      toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
           render() {

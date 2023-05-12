@@ -10,8 +10,11 @@ import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import GoldModal from "@/components/goldModal";
 import { RiCoinLine } from "react-icons/ri";
+import { GiSpikedDragonHead } from "react-icons/gi";
+
 import { IoDiamondOutline } from "react-icons/io5";
 import GemModal from "@/components/gemModal";
+import DragonModal from "@/components/dragonModal";
 
 export default function Quest() {
   const store = contractStore();
@@ -74,8 +77,16 @@ export default function Quest() {
           <IoDiamondOutline className="" />
         </div>
       </label>
+      <label
+        htmlFor="dragon-quest"
+        className="absolute left-[46%] top-[50%] btn mt-2 bg-[#9696ea] btn-accent gap-4"
+      >
+        Dragon Quest
+        <GiSpikedDragonHead className="text-red-800 w-6 h-6" />
+      </label>
       <GoldModal />
       <GemModal />
+      <DragonModal />
     </motion.div>
   );
 }

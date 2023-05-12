@@ -2,22 +2,18 @@ import Image from "next/image";
 import playerStore, { contractStore } from "@/store/contractStore";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
-import Diamond from "@/contracts/data/diamond.json";
-import { ethers } from "ethers";
 
 import { AiOutlineHeart } from "react-icons/ai";
-import { TbSword, TbBrandTailwind, TbClover } from "react-icons/tb";
+import { TbSword } from "react-icons/tb";
 import { SlEnergy } from "react-icons/sl";
 import { GiPotionBall } from "react-icons/gi";
-import { GoLightBulb } from "react-icons/go";
-import { SiGhost } from "react-icons/si";
-import { TfiEye } from "react-icons/tfi";
 import { RiCoinLine, RiSwordLine } from "react-icons/ri";
 import { IoDiamondOutline } from "react-icons/io5";
 import { HiArrowSmRight, HiArrowSmLeft } from "react-icons/hi";
 import { IoSkullOutline } from "react-icons/io5";
 
 import InventoryModal from "./inventoryModal";
+import BagModal from "./bagModal";
 export default function PlayerCard() {
   const { address } = useAccount();
   const store = playerStore();
@@ -115,14 +111,14 @@ export default function PlayerCard() {
                   <HiArrowSmRight className="" />
                 </button>
               </div>
-              {/* <div className="stat-desc text-purple-800 font-bold">
+              <div className="stat-desc text-purple-800 font-bold">
                 level: {store.player?.level.toNumber()}
-              </div> */}
-              {/* <progress
+              </div>
+              <progress
                 className="progress w-full progress-success"
-                value="50"
-                max="100"
-              ></progress> */}
+                value={store.player?.xp.toNumber()}
+                max="10"
+              ></progress>
             </div>
           </div>
           <div className="flex md:flex-row flex-col gap-1  my-auto  justify-center">
@@ -186,13 +182,20 @@ export default function PlayerCard() {
           <div className="flex md:flex-row flex-col items-center justify-center gap-1 my-auto ">
             <label
               htmlFor="my-modal"
-              className="bg-[#9696ea]  px-2 py-1 rounded-lg h-fit text-white"
+              className="bg-[#9696ea]  px-2 py-1 rounded-lg h-fit text-white hover:cursor-pointer"
             >
-              inventory
+              Equipment
+            </label>
+            <label
+              htmlFor="bag"
+              className="bg-[#9696ea]  px-2 py-1 rounded-lg h-fit text-white hover:cursor-pointer"
+            >
+              Bag
             </label>
           </div>
         </div>
         <InventoryModal />
+        <BagModal />
       </>
     );
   } else {

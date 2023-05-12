@@ -17,7 +17,8 @@ export default function GoldModal() {
   async function questTimer() {
     const blockTimestamp = (await diamond?.getGoldStart(selectedPlayer)) as any;
     const startTime = blockTimestamp.toNumber() as any;
-    const curTime = (Date.now() / 1000).toFixed(0) as any;
+    const currentTimeStamp = (await diamond?.getBlocktime()) as any;
+    const curTime = currentTimeStamp.toNumber() as any;
     const time = curTime - startTime;
     if (time < 60) {
       setCountdown(60 - time);
@@ -40,7 +41,7 @@ export default function GoldModal() {
     const provider = new ethers.providers.Web3Provider(window.ethereum as any);
     try {
       const quest = await diamond?.startQuestGold(selectedPlayer);
-      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+      toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
           render() {
@@ -83,7 +84,7 @@ export default function GoldModal() {
 
     try {
       const quest = await diamond?.endQuestGold(selectedPlayer);
-      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+      toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
           render() {

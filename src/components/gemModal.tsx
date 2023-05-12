@@ -28,7 +28,8 @@ export default function GemModal() {
   async function CooldownTimer() {
     const blockTimestamp = (await diamond?.getCooldown(selectedPlayer)) as any;
     const startTime = blockTimestamp.toNumber() as any;
-    const curTime = (Date.now() / 1000).toFixed(0) as any;
+    const currentTimeStamp = (await diamond?.getBlocktime()) as any;
+    const curTime = currentTimeStamp.toNumber() as any;
     const time = curTime - startTime;
     if (time < 80) {
       setCountdown(80 - time);
@@ -51,7 +52,7 @@ export default function GemModal() {
     const provider = new ethers.providers.Web3Provider(window.ethereum as any);
     try {
       const quest = await diamond?.startQuestGem(selectedPlayer);
-      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+      toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
           render() {
@@ -94,7 +95,7 @@ export default function GemModal() {
 
     try {
       const quest = await diamond?.endQuestGem(selectedPlayer);
-      toast.promise(provider.waitForTransaction(quest?.hash as any), {
+      toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
           render() {

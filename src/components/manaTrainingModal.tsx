@@ -19,10 +19,11 @@ export default function ManaTrainingModal() {
     const blockTimestamp = (await diamond?.getManaStart(selectedPlayer)) as any;
     const startTime = blockTimestamp.toNumber() as any;
     console.log(startTime);
-    const curTime = (Date.now() / 1000).toFixed(0) as any;
+    const currentTimeStamp = (await diamond?.getBlocktime()) as any;
+    const curTime = currentTimeStamp.toNumber() as any;
     const time = curTime - startTime;
-    if (time < 315) {
-      setCountdown(315 - time); // 5min
+    if (time < 300) {
+      setCountdown(300 - time); // 5min
       setTimer(true);
     }
   }
@@ -39,11 +40,9 @@ export default function ManaTrainingModal() {
   }, [player?.status, timer]);
 
   async function handleStartManaTrain() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum as any);
-
     try {
       const train = await diamond?.startTrainingMana(selectedPlayer);
-      toast.promise(provider.waitForTransaction(train?.hash as any), {
+      toast.promise(train!.wait(), {
         pending: "Tx pending: " + train?.hash,
         success: {
           render() {
@@ -86,7 +85,7 @@ export default function ManaTrainingModal() {
     try {
       const train = await diamond?.endTrainingMana(selectedPlayer);
 
-      toast.promise(provider.waitForTransaction(train?.hash as any), {
+      toast.promise(train!.wait(), {
         pending: "Tx pending: " + train?.hash,
         success: {
           render() {
