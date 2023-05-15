@@ -10,9 +10,9 @@ export default function DragonModal() {
   const selectedPlayer = playerStore((state) => state.selectedPlayer);
   const diamond = contractStore((state) => state.diamond);
 
-  const [beginTimer, setBeginTimer] = useState(false);
+  const [beginTimerDrag, setBeginTimer] = useState(false);
   const [hatEquiped, setHatEquiped] = useState(false);
-  const [countdown, setCountdown] = useState(0);
+  const [countdownDrag, setCountdown] = useState(0);
 
   async function CooldownTimer() {
     const blockTimestamp = (await diamond?.getCooldown(selectedPlayer)) as any;
@@ -20,7 +20,6 @@ export default function DragonModal() {
     const currentTimeStamp = (await diamond?.getBlocktime()) as any;
     const curTime = currentTimeStamp.toNumber() as any;
     const time = curTime - startTime;
-    console.log(time);
     if (time < 43200) {
       setCountdown(43200 - time);
       setBeginTimer(true);
@@ -28,10 +27,12 @@ export default function DragonModal() {
   }
   useEffect(() => {
     CooldownTimer();
-    if (player?.slot.head.toNumber() !== 0) {
-      setHatEquiped(true);
-    }
 
+    if (player?.slot) {
+      if (player?.slot.head.toNumber() !== 0) {
+        setHatEquiped(true);
+      }
+    }
     if (!player?.status) {
       setBeginTimer(false);
     } else {
@@ -39,12 +40,11 @@ export default function DragonModal() {
         setBeginTimer(true);
       }
     }
-  }, [player?.status, beginTimer]);
+  }, [player?.status]);
 
   async function handleDragonQuest() {
     try {
       const quest = await diamond?.dragonQuest(selectedPlayer);
-      console.log(quest);
       toast.promise(quest!.wait(), {
         pending: "Tx pending: " + quest?.hash,
         success: {
@@ -103,11 +103,11 @@ export default function DragonModal() {
             <button
               className="btn grid flex-grow h-12 card  rounded-box place-items-center bg-[#9696ea] btn-accent "
               onClick={handleDragonQuest}
-              disabled={beginTimer || !hatEquiped}
+              disabled={beginTimerDrag || !hatEquiped}
             >
-              {beginTimer ? (
+              {beginTimerDrag ? (
                 <Countdown
-                  date={Date.now() + 1000 * countdown} // 1sec * seconds
+                  date={Date.now() + 1000 * countdownDrag} // 1sec * seconds
                   onComplete={() => {
                     setBeginTimer(false);
                   }}

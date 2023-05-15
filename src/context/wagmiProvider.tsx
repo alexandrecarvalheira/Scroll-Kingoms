@@ -53,9 +53,7 @@ export default function WagmiProvider({
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} initialChain={mantletestnet}>
-          {children}
-        </RainbowKitProvider>
+        <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
       </WagmiConfig>
     </>
   );

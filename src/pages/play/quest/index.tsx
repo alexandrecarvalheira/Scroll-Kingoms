@@ -67,6 +67,8 @@ export default function Quest() {
           <RiCoinLine className="" />
         </div>
       </label>
+      <GoldModal />
+
       <label
         htmlFor="gem-quest"
         className="absolute left-[46%] top-[40%] btn mt-2 bg-[#9696ea] btn-accent gap-4"
@@ -77,6 +79,7 @@ export default function Quest() {
           <IoDiamondOutline className="" />
         </div>
       </label>
+      <GemModal />
       <label
         htmlFor="dragon-quest"
         className="absolute left-[46%] top-[50%] btn mt-2 bg-[#9696ea] btn-accent gap-4"
@@ -84,8 +87,6 @@ export default function Quest() {
         Dragon Quest
         <GiSpikedDragonHead className="text-red-800 w-6 h-6" />
       </label>
-      <GoldModal />
-      <GemModal />
       <DragonModal />
     </motion.div>
   );
