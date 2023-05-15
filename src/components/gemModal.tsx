@@ -18,26 +18,16 @@ export default function GemModal() {
   async function questTimer() {
     const blockTimestamp = (await diamond?.getGemStart(selectedPlayer)) as any;
     const startTime = blockTimestamp.toNumber() as any;
-    const curTime = (Date.now() / 1000).toFixed(0) as any;
+    const currentTimeStamp = (await diamond?.getBlocktime()) as any;
+    const curTime = currentTimeStamp.toNumber() as any;
     const time = curTime - startTime;
     if (time < 80) {
       setCountdown(80 - time);
       setTimer(true);
     }
   }
-  async function CooldownTimer() {
-    const blockTimestamp = (await diamond?.getCooldown(selectedPlayer)) as any;
-    const startTime = blockTimestamp.toNumber() as any;
-    const currentTimeStamp = (await diamond?.getBlocktime()) as any;
-    const curTime = currentTimeStamp.toNumber() as any;
-    const time = curTime - startTime;
-    if (time < 80) {
-      setCountdown(80 - time);
-      setBeginTimer(true);
-    }
-  }
+
   useEffect(() => {
-    CooldownTimer();
     questTimer();
     if (!player?.status) {
       setEndQuest(false);
@@ -100,7 +90,6 @@ export default function GemModal() {
         success: {
           render() {
             setEndQuest(false);
-            setBeginTimer(true);
 
             return "Success: " + quest?.hash;
           },
