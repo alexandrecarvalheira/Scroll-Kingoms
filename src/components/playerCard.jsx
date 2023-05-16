@@ -94,6 +94,7 @@ export default function PlayerCard() {
                 <div>
                   <div className="text-xs sm:stat-title">
                     {" "}
+                    <p>#{store.selectedPlayer}</p>
                     {store.player?.male ? "Male" : "Female"}
                   </div>
                   <div className=" font-bold text-xs sm:text-sm">
