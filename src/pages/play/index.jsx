@@ -2,6 +2,7 @@ import Image from "next/image";
 import chest from "../../../public/images/airdrop.png";
 import chest2 from "../../../public/images/airdrop2.png";
 import { abi as MerkleABI } from "../../../types/ethers-contracts/MerkleABI";
+import { Suspense } from "react";
 
 import minimap from "../../../public/images/minimapv2.png";
 import { useAccount, useNetwork } from "wagmi";
@@ -81,63 +82,65 @@ export default function Play() {
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="relative w-fit mb-auto min-h-fit flex flex-col sm:flex-row items-center justify-center mx-auto "
-      >
-        <Image
-          src={minimap}
-          alt="game map"
-          width={1200}
-          className="rounded-3xl shadow-inner "
-        />
-        <Link href={"/play/craft"}>
-          <span
-            className=" absolute right-[28%] top-[40%] w-[6%] hover:cursor-pointer animate-bounce tooltip"
-            data-tip="craft"
-          >
-            <HiLocationMarker className="   w-full h-full  stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
-          </span>
-        </Link>
-        <Link href={"/play/train"}>
-          <span
-            className=" absolute right-[48%] top-[35%] w-[6%] hover:cursor-pointer animate-bounce tooltip"
-            data-tip="training"
-          >
-            <HiLocationMarker className="   w-full h-full  stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
-          </span>
-        </Link>
-        <Link href={"/play/quest"}>
-          <span
-            className=" absolute right-[33%] top-[15%]  w-[6%]  hover:cursor-pointer animate-bounce tooltip"
-            data-tip="quest"
-          >
-            <HiLocationMarker className="  w-full h-full stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
-          </span>
-        </Link>
-        <label
-          htmlFor="airdrop"
-          className=" absolute right-[5%] top-[80%] w-[10%]"
+      <Suspense>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="relative w-fit mb-auto min-h-fit flex flex-col sm:flex-row items-center justify-center mx-auto "
         >
           <Image
-            src={!proof ? chest2 : chest}
-            className="   hover:cursor-pointer dropdown"
-            alt="chest"
+            src={minimap}
+            alt="game map"
+            width={1200}
+            className="rounded-3xl shadow-inner "
           />
-        </label>
-        {proof && <AirdropModal proof={proof} />}
-
-        <Link href={"/play/arena"}>
-          <span
-            className=" absolute right-[53%] top-[10%]  w-[6%]  hover:cursor-pointer animate-bounce tooltip"
-            data-tip="arena"
+          <Link href={"/play/craft"}>
+            <span
+              className=" absolute right-[28%] top-[40%] w-[6%] hover:cursor-pointer animate-bounce tooltip"
+              data-tip="craft"
+            >
+              <HiLocationMarker className="   w-full h-full  stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
+            </span>
+          </Link>
+          <Link href={"/play/train"}>
+            <span
+              className=" absolute right-[48%] top-[35%] w-[6%] hover:cursor-pointer animate-bounce tooltip"
+              data-tip="training"
+            >
+              <HiLocationMarker className="   w-full h-full  stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
+            </span>
+          </Link>
+          <Link href={"/play/quest"}>
+            <span
+              className=" absolute right-[33%] top-[15%]  w-[6%]  hover:cursor-pointer animate-bounce tooltip"
+              data-tip="quest"
+            >
+              <HiLocationMarker className="  w-full h-full stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
+            </span>
+          </Link>
+          <label
+            htmlFor="airdrop"
+            className=" absolute right-[5%] top-[80%] w-[10%]"
           >
-            <HiLocationMarker className="  w-full h-full stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
-          </span>
-        </Link>
-      </motion.div>
+            <Image
+              src={!proof ? chest2 : chest}
+              className="   hover:cursor-pointer dropdown"
+              alt="chest"
+            />
+          </label>
+          {proof && <AirdropModal proof={proof} />}
+
+          <Link href={"/play/arena"}>
+            <span
+              className=" absolute right-[53%] top-[10%]  w-[6%]  hover:cursor-pointer animate-bounce tooltip"
+              data-tip="arena"
+            >
+              <HiLocationMarker className="  w-full h-full stroke-purple-800 stroke-1 fill-[#E6E6FA] mt-1 mx-auto" />
+            </span>
+          </Link>
+        </motion.div>
+      </Suspense>
     </>
   );
 }

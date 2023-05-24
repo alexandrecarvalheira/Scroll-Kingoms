@@ -109,7 +109,9 @@ export default function InventoryModal() {
 
             <div className=" grid px-6 py-5 grid-cols-4 gap-4 w-fit h-full ">
               {itens.length != 0 &&
-                itens.map((itemId) => <ItemCard itemId={itemId} />)}
+                itens.map((itemId) => (
+                  <ItemCard itemId={itemId} key={itemId} />
+                ))}
             </div>
           </div>
         </div>
