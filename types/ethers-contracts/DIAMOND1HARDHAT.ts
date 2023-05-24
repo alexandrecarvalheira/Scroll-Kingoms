@@ -245,6 +245,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "getTreasures(uint256)": FunctionFragment;
     "startQuestGem(uint256)": FunctionFragment;
     "startQuestGold(uint256)": FunctionFragment;
+    "activeScript(uint256)": FunctionFragment;
     "openArena()": FunctionFragment;
     "endTrainingCombat(uint256)": FunctionFragment;
     "endTrainingMana(uint256)": FunctionFragment;
@@ -252,6 +253,11 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "getManaStart(uint256)": FunctionFragment;
     "startTrainingCombat(uint256)": FunctionFragment;
     "startTrainingMana(uint256)": FunctionFragment;
+    "claimTreasureDropKyberShard(uint256,bytes32[],uint256)": FunctionFragment;
+    "claimedStatus(uint256,address)": FunctionFragment;
+    "createTreasureDrop(bytes32,string)": FunctionFragment;
+    "getTreasureDropMerkleRoot(uint256)": FunctionFragment;
+    "verifyTreasureDropWhitelist(bytes32[],uint256,address)": FunctionFragment;
     "init()": FunctionFragment;
   };
 
@@ -330,6 +336,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "getTreasures"
       | "startQuestGem"
       | "startQuestGold"
+      | "activeScript"
       | "openArena"
       | "endTrainingCombat"
       | "endTrainingMana"
@@ -337,6 +344,11 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
       | "getManaStart"
       | "startTrainingCombat"
       | "startTrainingMana"
+      | "claimTreasureDropKyberShard"
+      | "claimedStatus"
+      | "createTreasureDrop"
+      | "getTreasureDropMerkleRoot"
+      | "verifyTreasureDropWhitelist"
       | "init"
   ): FunctionFragment;
 
@@ -632,6 +644,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     functionFragment: "startQuestGold",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "activeScript",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(functionFragment: "openArena", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "endTrainingCombat",
@@ -656,6 +672,34 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "startTrainingMana",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimTreasureDropKyberShard",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BytesLike>[],
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimedStatus",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createTreasureDrop",
+    values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTreasureDropMerkleRoot",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "verifyTreasureDropWhitelist",
+    values: [
+      PromiseOrValue<BytesLike>[],
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(functionFragment: "init", values?: undefined): string;
 
@@ -900,6 +944,10 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     functionFragment: "startQuestGold",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "activeScript",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "openArena", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "endTrainingCombat",
@@ -923,6 +971,26 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "startTrainingMana",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimTreasureDropKyberShard",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimedStatus",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createTreasureDrop",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTreasureDropMerkleRoot",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "verifyTreasureDropWhitelist",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "init", data: BytesLike): Result;
@@ -953,6 +1021,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
     "BeginTrainingMana(address,uint256)": EventFragment;
     "EndTrainingCombat(address,uint256)": EventFragment;
     "EndTrainingMana(address,uint256)": EventFragment;
+    "ClaimTreasure(uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "EnterMagic"): EventFragment;
@@ -999,6 +1068,7 @@ export interface DIAMOND1HARDHATInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "BeginTrainingMana"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EndTrainingCombat"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EndTrainingMana"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ClaimTreasure"): EventFragment;
 }
 
 export interface EnterMagicEventObject {
@@ -1275,6 +1345,17 @@ export type EndTrainingManaEvent = TypedEvent<
 >;
 
 export type EndTrainingManaEventFilter = TypedEventFilter<EndTrainingManaEvent>;
+
+export interface ClaimTreasureEventObject {
+  _playerId: BigNumber;
+  _treasureDropId: BigNumber;
+}
+export type ClaimTreasureEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  ClaimTreasureEventObject
+>;
+
+export type ClaimTreasureEventFilter = TypedEventFilter<ClaimTreasureEvent>;
 
 export interface DIAMOND1HARDHAT extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -1666,6 +1747,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    activeScript(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     openArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -1699,6 +1785,37 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    claimTreasureDropKyberShard(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _proof: PromiseOrValue<BytesLike>[],
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    claimedStatus(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    createTreasureDrop(
+      _merkleRoot: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    getTreasureDropMerkleRoot(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    verifyTreasureDropWhitelist(
+      _proof: PromiseOrValue<BytesLike>[],
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     init(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2054,6 +2171,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  activeScript(
+    _playerId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   openArena(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -2087,6 +2209,37 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     _tokenId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  claimTreasureDropKyberShard(
+    _treasureDropId: PromiseOrValue<BigNumberish>,
+    _proof: PromiseOrValue<BytesLike>[],
+    _playerId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  claimedStatus(
+    _treasureDropId: PromiseOrValue<BigNumberish>,
+    _address: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  createTreasureDrop(
+    _merkleRoot: PromiseOrValue<BytesLike>,
+    _name: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  getTreasureDropMerkleRoot(
+    _treasureDropId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  verifyTreasureDropWhitelist(
+    _proof: PromiseOrValue<BytesLike>[],
+    _treasureDropId: PromiseOrValue<BigNumberish>,
+    _address: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   init(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2440,6 +2593,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    activeScript(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     openArena(overrides?: CallOverrides): Promise<void>;
 
     endTrainingCombat(
@@ -2471,6 +2629,37 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    claimTreasureDropKyberShard(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _proof: PromiseOrValue<BytesLike>[],
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    claimedStatus(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    createTreasureDrop(
+      _merkleRoot: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    getTreasureDropMerkleRoot(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    verifyTreasureDropWhitelist(
+      _proof: PromiseOrValue<BytesLike>[],
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     init(overrides?: CallOverrides): Promise<void>;
   };
@@ -2708,6 +2897,15 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       _playerAddress?: PromiseOrValue<string> | null,
       _id?: PromiseOrValue<BigNumberish> | null
     ): EndTrainingManaEventFilter;
+
+    "ClaimTreasure(uint256,uint256)"(
+      _playerId?: PromiseOrValue<BigNumberish> | null,
+      _treasureDropId?: PromiseOrValue<BigNumberish> | null
+    ): ClaimTreasureEventFilter;
+    ClaimTreasure(
+      _playerId?: PromiseOrValue<BigNumberish> | null,
+      _treasureDropId?: PromiseOrValue<BigNumberish> | null
+    ): ClaimTreasureEventFilter;
   };
 
   estimateGas: {
@@ -3050,6 +3248,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    activeScript(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     openArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -3082,6 +3285,37 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     startTrainingMana(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    claimTreasureDropKyberShard(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _proof: PromiseOrValue<BytesLike>[],
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    claimedStatus(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    createTreasureDrop(
+      _merkleRoot: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    getTreasureDropMerkleRoot(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    verifyTreasureDropWhitelist(
+      _proof: PromiseOrValue<BytesLike>[],
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     init(
@@ -3433,6 +3667,11 @@ export interface DIAMOND1HARDHAT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    activeScript(
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     openArena(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -3465,6 +3704,37 @@ export interface DIAMOND1HARDHAT extends BaseContract {
     startTrainingMana(
       _tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    claimTreasureDropKyberShard(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _proof: PromiseOrValue<BytesLike>[],
+      _playerId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    claimedStatus(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    createTreasureDrop(
+      _merkleRoot: PromiseOrValue<BytesLike>,
+      _name: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getTreasureDropMerkleRoot(
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    verifyTreasureDropWhitelist(
+      _proof: PromiseOrValue<BytesLike>[],
+      _treasureDropId: PromiseOrValue<BigNumberish>,
+      _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     init(

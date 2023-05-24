@@ -4,6 +4,9 @@ const nextConfig = {
   images: {
     domains: ["infura-ipfs.io", "ipfs.io"],
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
 };
 
 module.exports = nextConfig;

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import bodyarmor from "../../public/images/bodyarmor.jpeg";
 import dragonscale from "../../public/images/dragonscale.png";
+import KyberShard from "../../public/images/KyberShard.png";
 
 import sword from "../../public/images/sword.jpeg";
 import playerStore, { contractStore } from "@/store/contractStore";
@@ -28,11 +29,17 @@ export default function TreasureCard({ itemId }: any) {
 
   return (
     <div
-      className={`overflow-visible dropdown w-12 h-12 rounded-md ring-2 bg-gray-100  items-center gap-2`}
+      className={`overflow-visible dropdown w-12 h-12 rounded-md ring-2 bg-gray-100  items-center gap-2 tooltip`}
+      data-tip={item?.name}
     >
       {item?.name === "Dscale" && (
         <label tabIndex={itemId}>
           <Image src={dragonscale} className="rounded-md " alt={item?.name} />
+        </label>
+      )}
+      {item?.name === "KyberShard" && (
+        <label tabIndex={itemId}>
+          <Image src={KyberShard} className="rounded-md " alt={item?.name} />
         </label>
       )}
     </div>

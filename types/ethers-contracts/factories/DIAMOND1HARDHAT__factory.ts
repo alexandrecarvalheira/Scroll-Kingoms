@@ -1293,19 +1293,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_address",
-        type: "address",
-      },
-    ],
-    name: "_getListing",
-    outputs: [],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint256",
         name: "_id",
         type: "uint256",
@@ -1319,6 +1306,67 @@ const _abi = [
     name: "crateListing",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllListings",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_listingId",
+        type: "uint256",
+      },
+    ],
+    name: "getLisitng",
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "seller",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "playerId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "getListings",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1737,6 +1785,19 @@ const _abi = [
     inputs: [
       {
         indexed: true,
+        internalType: "uint256",
+        name: "_playerId",
+        type: "uint256",
+      },
+    ],
+    name: "DragonQuest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
         internalType: "address",
         name: "_playerAddress",
         type: "address",
@@ -1750,6 +1811,25 @@ const _abi = [
     ],
     name: "EndQuesting",
     type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_playerId",
+        type: "uint256",
+      },
+    ],
+    name: "dragonQuest",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "result",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -1876,6 +1956,66 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "_treasureId",
+        type: "uint256",
+      },
+    ],
+    name: "getTreasure",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "id",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "rank",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "pointer",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+        ],
+        internalType: "struct Treasure",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_playerId",
+        type: "uint256",
+      },
+    ],
+    name: "getTreasures",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "_tokenId",
         type: "uint256",
       },
@@ -1899,8 +2039,21 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_playerId",
+        type: "uint256",
+      },
+    ],
+    name: "activeScript",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
-    name: "openSecondArena",
+    name: "openArena",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -2069,6 +2222,138 @@ const _abi = [
     name: "startTrainingMana",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_playerId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_treasureDropId",
+        type: "uint256",
+      },
+    ],
+    name: "ClaimTreasure",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_treasureDropId",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32[]",
+        name: "_proof",
+        type: "bytes32[]",
+      },
+      {
+        internalType: "uint256",
+        name: "_playerId",
+        type: "uint256",
+      },
+    ],
+    name: "claimTreasureDropKyberShard",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_treasureDropId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "claimedStatus",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "_merkleRoot",
+        type: "bytes32",
+      },
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+    ],
+    name: "createTreasureDrop",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_treasureDropId",
+        type: "uint256",
+      },
+    ],
+    name: "getTreasureDropMerkleRoot",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32[]",
+        name: "_proof",
+        type: "bytes32[]",
+      },
+      {
+        internalType: "uint256",
+        name: "_treasureDropId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "verifyTreasureDropWhitelist",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
